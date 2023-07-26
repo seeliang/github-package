@@ -13,8 +13,5 @@
     "ci": "exit 0",
     "test": "exit 0"
   },
-  "private": false,
-  "devDependencies": {
-    "npm-cli-login": "^1.0.0"
-  }
+  "private": false
 }
