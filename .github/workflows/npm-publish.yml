@@ -12,7 +12,5 @@ on:
 jobs:
   publish-npm:
     uses: seeliang/Github-shared-flow/.github/workflows/npm-publish-github-packages.yml@main
-    with:
-      node-version: 20
     secrets:
       NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
