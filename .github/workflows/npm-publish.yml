@@ -12,5 +12,3 @@ on:
 jobs:
   publish-npm:
     uses: seeliang/Github-shared-flow/.github/workflows/npm-publish-github-packages.yml@main
-    secrets:
-      NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
