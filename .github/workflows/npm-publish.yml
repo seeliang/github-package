@@ -16,3 +16,5 @@ jobs:
     uses: seeliang/Github-shared-flow/.github/workflows/npm-publish-github-packages.yml@main
     with:
       branch: ${{ github.event_name == 'pull_request' && github.head_ref || github.ref_name }}
+    secrets:
+      token: ${{ secrets.GITHUB_TOKEN }}
