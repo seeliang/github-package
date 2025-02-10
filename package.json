@@ -1,7 +1,7 @@
 {
   "name": "@seeliang/github-package-sample",
   "version": "1.0.5",
-  "description": "test github packages some here",
+  "description": "test github packages  some here",
   "main": "index.js",
   "repository": "git@github.com:seeliang/github-package.git",
   "author": "sliang <hi@sihuiliang.com>",
