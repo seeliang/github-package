@@ -7,19 +7,12 @@ on:
   push:
     branches:
       - master
-      - "feature-**"
+  pull_request:
+    branches:
+      - master
 
 jobs:
   publish-npm:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 16
-          registry-url: https://npm.pkg.github.com  
-      - run: |
-          bash npm.bash
-          npm publish
-        env:
-          NODE_AUTH_TOKEN: ${{secrets.NODE_AUTH_TOKEN}}
+    uses: seeliang/Github-shared-flow/.github/workflows/npm-publish-github-packages.yml@main
+    with:
+      branch: ${{ github.event_name == 'pull_request' && github.head_ref || github.ref_name }}
