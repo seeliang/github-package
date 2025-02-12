@@ -13,8 +13,5 @@
     "ci": "exit 0",
     "test": "exit 0"
   },
-  "private": false,
-  "devDependencies": {
-    "env-ci": "^11.1.0"
-  }
+  "private": false
 }
