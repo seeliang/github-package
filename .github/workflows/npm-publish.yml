@@ -38,5 +38,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
+          npm config set //npm.pkg.github.com/:_authToken ${{secrets.GITHUB_TOKEN}}
+          echo "---------------- config ----------------"
+          npm config list
           npm install
           npx semantic-release
