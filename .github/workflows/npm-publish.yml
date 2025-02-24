@@ -30,7 +30,7 @@ jobs:
           node-version: "lts/*"
       - name: Set user
         run: |
-          git config --local user.email "github-actions[bot]@sihuiliang.com"
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
       - name: Add suffix to version on PR with prerelease
         if: github.event_name == 'pull_request' && github.head_ref != 'master' && github.head_ref != 'main'
