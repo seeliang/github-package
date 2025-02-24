@@ -33,6 +33,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        if: github.head_ref == 'refs/heads/semantic-on-release-branch' || github.head_ref == 'refs/heads/master'
         run: |
           npm config set //npm.pkg.github.com/:_authToken ${{secrets.GITHUB_TOKEN}}
           echo "---------------- config ----------------"
