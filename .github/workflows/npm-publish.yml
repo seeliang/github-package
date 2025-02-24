@@ -28,13 +28,21 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: "lts/*"
-      - name: Set user
+      - name: Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        if: github.ref_name == 'master' || github.ref_name == 'main'
         run: |
-          git config --local user.email "github-actions[bot]@users.noreply.github.com"
-          git config --local user.name "github-actions[bot]"
+          npm config set //npm.pkg.github.com/:_authToken ${{secrets.GITHUB_TOKEN}}
+          echo "---------------- config ----------------"
+          npm config list
+          npx semantic-release          
       - name: Add suffix to version on PR with prerelease
-        if: github.event_name == 'pull_request' && github.head_ref != 'master' && github.head_ref != 'main'
+        if: github.event_name == 'pull_request'
         run: |
+          git config --local user.email "github-actions[bot]@sihuiliang.com"
+          git config --local user.name "github-actions[bot]"
           BRANCH_NAME=${{ github.head_ref }}
           npm version prerelease --preid=${BRANCH_NAME}-${{github.sha}}-prerelease
           npm config set //npm.pkg.github.com/:_authToken ${{secrets.GITHUB_TOKEN}}
@@ -42,14 +50,4 @@ jobs:
           npm config list
           npm publish
         env:
-          NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
-      - name: Run release
-        if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main'
-        run: |
-          npm config set //npm.pkg.github.com/:_authToken ${{secrets.GITHUB_TOKEN}}
-          echo "---------------- config ----------------"
-          npm config list
-          npx semantic-release
-        env:
-          NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}    
