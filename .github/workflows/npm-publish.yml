@@ -7,7 +7,6 @@ on:
   push:
     branches:
       - master
-      - semantic
   pull_request:
     branches:
       - master
@@ -29,13 +28,23 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: "lts/*"
-      - name: Release
+      - name: Add suffix to version on PR with prerelease
+        if: github.event_name == 'pull_request' && github.head_ref != 'master' && github.head_ref != 'main'
+        run: |
+          BRANCH_NAME=${{ github.head_ref }}
+          npm version prerelease --preid=${BRANCH_NAME}-${{github.sha}}-prerelease
+          npm config set //npm.pkg.github.com/:_authToken ${{secrets.GITHUB_TOKEN}}
+          echo "---------------- config ----------------"
+          npm config list
+          npm publish
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
+      - name: Run release
+        if: github.event_name == 'pull_request' && (github.head_ref == 'master' || github.head_ref == 'main')
         run: |
           npm config set //npm.pkg.github.com/:_authToken ${{secrets.GITHUB_TOKEN}}
           echo "---------------- config ----------------"
           npm config list
-          npm install
           npx semantic-release
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
