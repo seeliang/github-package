@@ -3,7 +3,7 @@
   "version": "1.0.5",
   "description": "test github packages some here",
   "main": "index.js",
-  "repository": "https://github.com/seeliang/github-package.git",
+  "repository": "git@github.com:seeliang/github-package.git",
   "author": "sliang <hi@sihuiliang.com>",
   "license": "MIT",
   "publishConfig": {
