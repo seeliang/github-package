@@ -32,24 +32,24 @@ jobs:
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
-      - name: Add suffix to version on PR with prerelease
-        if: github.event_name == 'pull_request' && github.head_ref != 'master' && github.head_ref != 'main'
-        run: |
-          BRANCH_NAME=${{ github.head_ref }}
-          npm version prerelease --preid=${BRANCH_NAME}-${{github.sha}}-prerelease
-          npm config set //npm.pkg.github.com/:_authToken ${{secrets.GITHUB_TOKEN}}
-          echo "---------------- config ----------------"
-          npm config list
-          npm publish
+      # - name: Add suffix to version on PR with prerelease
+      #   if: github.event_name == 'pull_request' && github.head_ref != 'master' && github.head_ref != 'main'
+      #   run: |
+      #     BRANCH_NAME=${{ github.head_ref }}
+      #     npm version prerelease --preid=${BRANCH_NAME}-${{github.sha}}-prerelease
+      #     npm config set //npm.pkg.github.com/:_authToken ${{secrets.GITHUB_TOKEN}}
+      #     echo "---------------- config ----------------"
+      #     npm config list
+      #     npm publish
+      #   env:
+      #     NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
+      - name: Run release
         env:
           NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
-      - name: Run release
-        if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main'
+        if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main' || github.head_ref == 'semantic-on-release-branch'
         run: |
           npm config set //npm.pkg.github.com/:_authToken ${{secrets.GITHUB_TOKEN}}
           echo "---------------- config ----------------"
           npm config list
           npx semantic-release
-        env:
-          NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        
