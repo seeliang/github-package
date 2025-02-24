@@ -44,7 +44,7 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
       - name: Run release
-        if: github.event_name == 'pull_request' && (github.head_ref == 'master' || github.head_ref == 'main')
+        if: github.head_ref == 'master' || github.head_ref == 'main'
         run: |
           npm config set //npm.pkg.github.com/:_authToken ${{secrets.GITHUB_TOKEN}}
           echo "---------------- config ----------------"
