@@ -16,7 +16,8 @@ permissions:
   packages: write
 
 jobs:
-  use: seeliang/Github-shared-flow/.github/workflows/npm-publish-github-packages.yml@semantic-on-release-branch
-  with:
-    branch: ${{ github.event_name == 'pull_request' && github.head_ref ||  github.ref.name }} 
-    commit_sha: ${{ github.sha }}
+  npm-publish:
+    uses: seeliang/Github-shared-flow/.github/workflows/npm-publish-github-packages.yml@semantic-on-release-branch
+    with:
+      branch: ${{ github.event_name == 'pull_request' && github.head_ref || github.ref.name }} 
+      commit_sha: ${{ github.sha }}
