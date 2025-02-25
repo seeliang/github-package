@@ -13,40 +13,10 @@ on:
 
 permissions:
   contents: read # for checkout
+  packages: write
 
 jobs:
-  release:
-    name: Release
-    runs-on: ubuntu-latest
-    permissions: write-all
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: "lts/*"
-      - name: Release
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        if: github.ref_name == 'master' || github.ref_name == 'main'
-        run: |
-          npm config set //npm.pkg.github.com/:_authToken ${{secrets.GITHUB_TOKEN}}
-          echo "---------------- config ----------------"
-          npm config list
-          npx semantic-release          
-      - name: Add suffix to version on PR with prerelease
-        if: github.event_name == 'pull_request'
-        run: |
-          git config --local user.email "github-actions[bot]@sihuiliang.com"
-          git config --local user.name "github-actions[bot]"
-          BRANCH_NAME=${{ github.head_ref }}
-          npm version prerelease --preid=${BRANCH_NAME}-${{github.sha}}-prerelease
-          npm config set //npm.pkg.github.com/:_authToken ${{secrets.GITHUB_TOKEN}}
-          echo "---------------- config ----------------"
-          npm config list
-          npm publish
-        env:
-          NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}    
+  use: seeliang/Github-shared-flow/.github/workflows/npm-publish-github-packages.yml@semantic-on-release-branch
+  with:
+    branch: ${{ github.event_name == 'pull_request' && github.head_ref ||  github.ref.name }} 
+    commit_sha: ${{ github.sha }}
