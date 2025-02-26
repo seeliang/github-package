@@ -17,5 +17,5 @@ jobs:
   npm-publish:
     uses: seeliang/Github-shared-flow/.github/workflows/npm-publish-github-packages.yml@semantic-on-release-branch
     with:
-      branch: ${{ github.event_name == 'pull_request' && github.head_ref || github.ref.name }} 
+      branch: ${{ github.event_name == 'pull_request' && github.head_ref || github.ref_name }} 
       commit_sha: ${{ github.sha }}
