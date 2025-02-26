@@ -1,6 +1,6 @@
 {
   "name": "@seeliang/github-package-sample",
-  "version": "1.0.5",
+  "version": "1.3.5",
   "description": "test github packages some here",
   "main": "index.js",
   "repository": "git@github.com:seeliang/github-package.git",
@@ -16,5 +16,5 @@
   "engines": {
     "node": ">=20.0.0"
   },
-  "private": true
+  "private": false
 }
